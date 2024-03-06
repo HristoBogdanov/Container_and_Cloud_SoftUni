@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  mongodb:
+    container_name: mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=max
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+    volumes:
+      - data:/data/db
+    image: mongo
+    networks:
+      - shopping
+  backend:
+    ports:
+      - 80:80
+    volumes:
+      - logs:/logs
+      - node_modules:/node_modules
+    networks:
+      - shopping
+    image: hristobogdanov03/shopping-backend
+  frontend:
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend/src:/src
+    image: hristobogdanov03/shopping-frontend
+networks:
+  shopping:
+volumes:
+  data:
+  logs:
+  node_modules:
